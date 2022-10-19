@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+  scheduler:
+    build: .
+    volumes:
+      - ./:/app/scheduler
+    working_dir: /app/scheduler
+    command: ["python3", "-u", "./scheduler.py"]
+    depends_on:
+      - queue
+
+  worker1:
+    build: .
+    volumes:
+      - ./:/app/worker
+    working_dir: /app/worker
+    command: [ "python3", "-u", "./worker.py" ]
+    depends_on:
+      - queue
+
+  worker2:
+    build: .
+    volumes:
+      - ./:/app/worker
+    working_dir: /app/worker
+    command: [ "python3", "-u", "./worker.py" ]
+    depends_on:
+      - queue
+
+  worker3:
+    build: .
+    volumes:
+      - ./:/app/worker
+    working_dir: /app/worker
+    command: [ "python3", "-u", "./worker.py" ]
+    depends_on:
+      - queue
+
+  queue:
+    image: redis:alpine
